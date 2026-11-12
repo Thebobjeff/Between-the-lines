@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Between The Lines</title>
+<meta name="description" content="Upload a text conversation, ask a question, and get an evidence-based reading of reply times, initiations and tone.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <span class="label">Conversation analysis · demo</span>
+      <h1>Between <span class="gap">the</span> Lines</h1>
+      <p>Upload a chat, ask what's on your mind, and get an answer grounded in the actual messages: reply times, who starts conversations, and how the tone has shifted.</p>
+    </div>
+    <span class="pill"><span class="dot"></span>Analysis runs in your browser</span>
+  </header>
+
+  <section class="panel source" aria-label="Conversation source">
+    <div class="status">
+      <span class="label">Conversation</span>
+      <strong id="srcTitle">Loading sample…</strong>
+      <span class="muted" id="srcSub"></span>
+    </div>
+    <div class="row">
+      <label class="row" for="meSel" style="gap:6px"><span class="muted">I am</span>
+        <select id="meSel"></select></label>
+      <button class="btn" id="sampleBtn" type="button">Load sample</button>
+      <button class="btn" id="pasteBtn" type="button">Paste a chat</button>
+      <label class="btn" for="fileIn" style="display:inline-flex">Upload .txt</label>
+      <input type="file" id="fileIn" accept=".txt,text/plain" hidden>
+    </div>
+    <div id="pasteBox" hidden>
+      <textarea id="pasteIn" placeholder="[2026-09-03 19:42] Maya: did you see this?&#10;[2026-09-03 19:50] Jordan: haha yes"></textarea>
+      <div class="row" style="justify-content:space-between">
+        <span class="hint">Works with WhatsApp exports (<code>9/3/26, 7:42 PM - Name: text</code>) or <code>[YYYY-MM-DD HH:MM] Name: text</code>.</span>
+        <button class="btn primary" id="analyzeBtn" type="button">Analyze</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel ask" aria-label="Ask a question">
+    <div>
+      <h2>What do you want to know?</h2>
+      <span class="muted" style="font-size:13.5px">Answers cite the patterns and messages below. When Claude isn't available here, you get a rule-based reading of the data instead.</span>
+    </div>
+    <form class="askbar" id="askForm">
+      <input id="q" type="text" autocomplete="off" placeholder="e.g. Am I overthinking this, or has something changed?">
+      <button class="btn primary" id="askBtn" type="submit">Ask</button>
+      <button class="btn" id="stopBtn" type="button" hidden>Stop</button>
+    </form>
+    <div class="chips" id="chips"></div>
+    <div class="answer" id="answer" hidden></div>
+  </section>
+
+  <div class="grid" id="people"></div>
+
+  <section class="panel">
+    <div class="sechead"><h2>What changed</h2><span class="muted" id="splitNote" style="font-size:13px"></span></div>
+    <div class="findings" id="findings"></div>
+  </section>
+
+  <section class="panel">
+    <div class="sechead"><h2>Week by week</h2><div class="legend" id="legend"></div></div>
+    <div class="charts">
+      <div class="chart"><span class="label">Messages sent</span><div id="c1"></div></div>
+      <div class="chart"><span class="label">Median reply time</span><div id="c2"></div></div>
+      <div class="chart"><span class="label">Warmth score</span><div id="c3"></div></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="sechead"><h2>The conversation</h2><span class="muted" style="font-size:13px">Most recent 80 messages · reply gaps over 1 hour in red</span></div>
+    <div class="transcript" id="transcript"></div>
+  </section>
+
+  <footer>Texting patterns are signals, not proof of how someone feels. People get busy, change habits, and text differently from how they talk. Use this as a starting point for a real conversation. The sample chat between Maya and Jordan is fictional.</footer>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>
